@@ -6,9 +6,6 @@ from PIL import Image
 from master.models import DocumentType, PersonType, EmployeeDesignation, EquipmentType, AccessGate, RateMaster, PortPassIssueCenter
 from HEP_system.models import Vehicle, Container
 
-
-# Create your models here.
-
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_firm = models.ForeignKey(UserFirm, on_delete=models.CASCADE, related_name='persons')
@@ -37,6 +34,47 @@ class Person(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.profile_image.path)
+            
+class UserFirm(models.Model):
+    FIRM_TYPE_CHOICES = [
+        ('stevedore', 'Stevedore'),
+        ('ship_agent', 'Ship Agent'),
+        ('custom_broker', 'Custom Broker'),
+        ('cfs', 'Container Freight Station'),
+        ('freight_forwarder', 'Freight Forwarder'),
+        ('terminal_operator', 'Terminal Operator'),
+        ('shipping_line', 'Shipping Line'),
+        ('warehouse_operator', 'Warehouse Operator'),
+        ('transport_carrier', 'Transport Carrier'),
+        ('port_authority', 'Port Authority'),
+    ]
+
+    name = models.CharField(max_length=255)
+    firm_type = models.CharField(max_length=50, choices=FIRM_TYPE_CHOICES)
+    phone_no = models.CharField(max_length=15, default='12345677')
+    email_id = models.EmailField()
+    address_1 = models.CharField(max_length=255)
+    address_2 = models.CharField(max_length=255, blank=True, null=True)
+    # reg_date = models.DateField(default=timezone.now)
+    reg_no = models.CharField(max_length=50)
+    contact_person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    # phone_mobile_no = models.CharField(max_length=15)
+    fax_no = models.CharField(max_length=15, blank=True, null=True)
+    gstin = models.CharField(max_length=15)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
+    # login_id = models.CharField(max_length=50, unique=True)
+    # password = models.CharField(max_length=128)
+    status = models.BooleanField(default=True)
+
+    def __str__(self) -> str:
+        return self.name
+    
+    def is_staff(self):
+        return self.firm_type == 'port_authority'
+# Create your models here.
+
+
 
 class PersonDocument(models.Model):
 

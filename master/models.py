@@ -140,7 +140,7 @@ class RateMaster(models.Model):
 
 # Document Master
 class DocumentType(models.Model):
-    category_type = models.CharField(max_length=50, choices=[('Firm', 'Firm'), ('Users', 'Users'), ('Person', 'Person'), ('Driver', 'Driver'), ('Vehicle', 'Vehicle'), ('Cargo', 'Cargo'), ('Container', 'Container')])
+    category_type = models.CharField(max_length=50, choices=[('Firm', 'Firm'), ('Users', 'Users'), ('Person', 'Person'), ('Driver', 'Driver'), ('Vehicle', 'Vehicle'), ('Equipment', 'Equipment'), ('Cargo', 'Cargo'), ('Container', 'Container')])
     type_of_proof = models.CharField(max_length=100)
     status = models.BooleanField(default=True)  # Active/Inactive
 
