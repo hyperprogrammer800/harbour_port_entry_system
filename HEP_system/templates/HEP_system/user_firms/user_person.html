@@ -1,0 +1,90 @@
+{% extends "HEP_system/sidebar.html" %}
+ {% block content %}
+ 
+    <div class="row">
+        <div class="col">
+          User Firms/Person Registration
+        </div>
+        <div class="col-6">
+          
+        </div>
+        <div class="col">
+          <a href="">
+            <button type="button" class="btn btn-primary">User Registration</button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+    
+                <div class="col-2">
+                    <label class="form-label">From Date</label>
+                    <input type="date" class="form-control" value="">
+                </div>
+                <div class="col-2">
+                    <label class="form-label">To Date</label>
+                    <input type="date" class="form-control" value="">
+                </div>
+    
+    
+    
+                <div class="col-2">
+                    <label class="form-label">Designation</label>
+    
+                    <select class="form-select" id="idproofSelect" name="idproof">
+                        <option selected="">Select Designation</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Employee">Employee</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Sales Manager">Sales Manager</option>
+                        <option value="Driver">Driver</option>
+                        <option value="Cleaner">Cleaner</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label class="form-label">Proof/Aadhar No</label>
+    
+                    <input type="text" class="form-control" id="id_no" name="id_no" placeholder="Proof/Aadhar No">
+                </div>
+                <div class="col-2 mt-4">
+                    <button id="openTableButton" class="btn btn-primary">GO</button>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Proof/Aadhar No</th>
+                        <th>Mobile No</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in persons %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ person.user.username }}</td>
+                      <td>{{ person.designation }}</td>
+                      <td>{{ person.adhaar_no }}</td>
+                      <td>{{ person.mobile_no }}</td>
+                      <td>{{ person.email_id }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+  {% endblock %}

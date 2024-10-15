@@ -1,0 +1,47 @@
+{% extends "HEP_system/sidebar.html" %}
+ {% block content %}
+ 
+    <div class="row">
+        <div class="col">
+          User Firms/User Registration
+        </div>
+        <div class="col-6">
+          
+        </div>
+        <div class="col">
+          <a href="">
+            <button type="button" class="btn btn-primary">User Registration</button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <br>
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Type Of Firm</th>
+                        <th>Company Reg No</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for firm in firms %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ firm.firm_type }}</td>
+                      <td>{{ firm.reg_no }}</td>
+                      <td>{{ firm.name }}</td>
+                      <td>{{ firm.mobile_no }}</td>
+                      <td>{{ firm.email_id }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    
+    
+  {% endblock %}

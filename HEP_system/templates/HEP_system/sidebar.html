@@ -1,0 +1,285 @@
+{% extends "HEP_system/base.html" %}
+{% block maincontent %}
+<div class="cointainer-fluid">
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3><a href="{% url 'app-home' %}">HEP</a></h3>
+                
+            </div>
+
+            <ul class="list-unstyled components">
+                <p><a href="{% url 'app-dashboard' %}">Dashboard</a></p>
+                <p><a href="{% url 'admin:index' %}">Admin</a></p>
+                <!-- <li class="active">
+                    <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
+                    <ul class="collapse list-unstyled" id="adminSubmenu">
+                        <li>
+                            <a href="#">User Type</a>
+                        </li>
+                        <li>
+                            <a href="#">Main User Screen</a>
+                        </li>
+                        <li>
+                            <a href="#">User Screen</a>
+                        </li>
+                        <li>
+                            <a href="#">User Creation</a>
+                        </li>
+                        <li>
+                            <a href="#">User Permission</a>
+                        </li>
+                    </ul>
+                </li> -->
+                <li>
+                    <a href="#settingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
+                    <ul class="collapse list-unstyled" id="settingSubmenu">
+                        <li>
+                            <a href="#">Academic Creation</a>
+                        </li>
+                        <li>
+                            <a href="#">Port Issue Centre</a>
+                        </li>
+                        <li>
+                            <a href="#">Port Category</a>
+                        </li>
+                        <li>
+                            <a href="#">Port Area of Access</a>
+                        </li>
+                        <li>
+                            <a href="#">Employees Designation</a>
+                        </li>
+                        <li>
+                            <a href="#">Port Department</a>
+                        </li>
+                        <li>
+                            <a href="#">Company Creation</a>
+                        </li>
+                        <li>
+                            <a href="#">Cargo Creation</a>
+                        </li>
+                        <li>
+                            <a href="#">Vehicle Creation</a>
+                        </li>
+                        <li>
+                            <a href="#">Access Gate</a>
+                        </li>
+                        <li>
+                            <a href="#">Rate Master</a>
+                        </li>
+                        <li>
+                            <a href="#">Person Type</a>
+                        </li>
+                        <li>Document Master</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#userFirmSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User Firms</a>
+                    <ul class="collapse list-unstyled" id="userFirmSubmenu">
+                        <li>
+                            <a href="{% url 'app-user-firms-list' %}">Firms Registration</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'app-person-registration' %}">Person Registration</a>
+                        </li>
+                        <li>
+                            <a href="#">Vehicle Registration</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#portEmployeesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Port Employees</a>
+                    <ul class="collapse list-unstyled" id="portEmployeesSubmenu">
+                        <li>
+                            <a href="#">Employee Registration</a>
+                        </li>
+                        <li>
+                            <a href="#">Port Vehicle Registration</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#onlineRegSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Online Registration</a>
+                    <ul class="collapse list-unstyled" id="onlineRegSubmenu">
+                        <li>
+                            <a href="#">User Registration</a>
+                        </li>
+                        <li>
+                            <a href="#">Online Vehicle Registration</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#authenticationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Authentication</a>
+                    <ul class="collapse list-unstyled" id="authenticationSubmenu">
+                        <li>
+                            <a href="#">Firm Authentication</a>
+                        </li>
+                        <li>
+                            <a href="#">Person Authentication</a>
+                        </li>
+                        <li>
+                            <a href="#">User Authentication</a>
+                        </li>
+                        <li>
+                            <a href="#">Vehicle Authentication</a>
+                        </li>
+                        <li>
+                            <a href="#">Port Vehicle Authentication</a>
+                        </li>
+                        <li>
+                            <a href="#">Online Vehicle Authentication</a>
+                        </li>
+                        <li>
+                            <a href="#">Payment Wallet</a>
+                        </li>
+                        <li>
+                            <a href="#">ID Card & RFID Issues</a>
+                        </li>
+                        <li>
+                            <a href="#">Account Activation</a>
+                        </li>
+                        <li>
+                            <a href="#">RFID Issues</a>
+                        </li>
+                        <li>
+                            <a href="#">Rate Master Approval</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#penaltyFeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Penalty Fee Entry</a>
+                    <ul class="collapse list-unstyled" id="penaltyFeeSubmenu">
+                        <li>
+                            <a href="#">Person Penalty Check</a>
+                        </li>
+                        <li>
+                            <a href="#">Vehicle Penalty Check</a>
+                        </li>
+                        <li>
+                            <a href="#">Officer Authorization</a>
+                        </li>
+                        <li>
+                            <a href="#">Pass Penalty Fee</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#accessSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Access IN/OUT</a>
+                    <ul class="collapse list-unstyled" id="accessSubmenu">
+                        <li>
+                            <a href="#">Person Access Center</a>
+                        </li>
+                        <li>
+                            <a href="#">Vehicle Access Center</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#portOperationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Port Operation System</a>
+                    <ul class="collapse list-unstyled" id="portOperationSubmenu">
+                        <li>
+                            <a href="#">Import Export Application</a>
+                        </li>
+                        <li>
+                            <a href="#">Cargo Admission and Delivery Screen</a>
+                        </li>
+                        <li>
+                            <a href="#">Cargo Handling</a>
+                        </li>
+                        <li>
+                            <a href="#">Weightment Entry</a>
+                        </li>
+                        <li>
+                            <a href="#">Customs Permission Entry</a>
+                        </li>
+                        <li>
+                            <a href="#">Cargo Details in Gate Entry</a>
+                        </li>
+                        <li>
+                            <a href="#">Cargo Export/Import Registration</a>
+                        </li>
+                        <li>
+                            <a href="#">Assign Cargo</a>
+                        </li>
+                        <li>
+                            <a href="#">Cointainer Import/Export Registration</a>
+                        </li>
+                        <li>
+                            <a href="#">Pass Request Form Port</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#passesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Passes</a>
+                    <ul class="collapse list-unstyled" id="passesSubmenu">
+                        <li>
+                            <a href="#">Pass Request Form Agent</a>
+                        </li>
+                        <li>
+                            <a href="#">Pass Extend</a>
+                        </li>
+                        <li>
+                            <a href="#">View Pass Extend</a>
+                        </li>
+                        <li>
+                            <a href="#">Card Request for Pre Owned</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#complaintSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Complaint</a>
+                    <ul class="collapse list-unstyled" id="complaintSubmenu">
+                        <li>
+                            <a href="#">Person Complaint Registration</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+        
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <!-- <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Pricing</a>
+                        </li>
+                        </ul>
+                        <span class="navbar-text">
+                        Navbar text with an inline element
+                        </span>
+                    </div> -->
+                </div>
+            </nav>
+            <hr>
+            <div class="container-fluid">
+                
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    {% block content %}{% endblock %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

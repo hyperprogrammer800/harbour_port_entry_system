@@ -1,0 +1,47 @@
+{% extends "HEP_system/base.html" %}
+{% load crispy_forms_tags %}
+{% block usercontent %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.person.profile_image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+            <p><strong>Designation:</strong> {{ user.person.designation }}</p>
+            <p><strong>Nationality:</strong> {{ user.person.nationality }}</p>
+            <p><strong>Country:</strong> {{ user.person.country }}</p>
+            <p><strong>Registration Date:</strong> {{ user.person.reg_date }}</p>
+            <p><strong>Registration Number:</strong> {{ user.person.reg_no }}</p>
+            <p><strong>Aadhaar Number:</strong> {{ user.person.adhaar_no }}</p>
+            <p><strong>Status:</strong> {{ user.person.status|yesno:"Active,Inactive" }}</p>
+            <p><strong>Firm:</strong> {{ user.person.user_firm.name }}</p>
+            <p><strong>Person Type:</strong> {{ user.person.person_type }}</p>
+        </div>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Person Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+            {{ pd_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+    </form>
+    <h2 class="mt-4">Your Documents</h2>
+    <ul class="list-group">
+        {% for document in documents %}
+            <li class="list-group-item">
+                <strong>Proof Type:</strong> {{ document.proof_type }} <br>
+                <strong>Document Number:</strong> {{ document.id_proof_no }} <br>
+                <strong>Uploaded On:</strong> {{ document.upload_date }} <br>
+                <a class="btn btn-outline-primary" href="{{ document.document_attach.url }}">Download</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No documents uploaded yet.</li>
+        {% endfor %}
+    </ul>
+    </div>
+{% endblock usercontent %}
