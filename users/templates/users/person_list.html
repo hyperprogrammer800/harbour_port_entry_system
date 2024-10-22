@@ -9,8 +9,8 @@
           
         </div>
         <div class="col">
-          <a href="">
-            <button type="button" class="btn btn-primary">User Registration</button>
+          <a href="{% url 'app-person-register' %}?action=create">
+            <button type="button" name="person_creation" class="btn btn-primary">Person Creation</button>
           </a>
         </div>
       </div>
@@ -63,7 +63,7 @@
                 <thead>
                     <tr>
                         <th>S.No</th>
-                        <th>Name</th>
+                        <th>Username</th>
                         <th>Designation</th>
                         <th>Proof/Aadhar No</th>
                         <th>Mobile No</th>
@@ -80,6 +80,9 @@
                       <td>{{ person.adhaar_no }}</td>
                       <td>{{ person.mobile_no }}</td>
                       <td>{{ person.email_id }}</td>
+                      <td>
+                        <a href="{% url 'app-person-register' person.id %}" class="btn btn-secondary">Edit</a>
+                    </td>
                     </tr>
                     {% endfor %}
                 </tbody>

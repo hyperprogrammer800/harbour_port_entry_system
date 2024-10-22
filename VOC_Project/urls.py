@@ -24,8 +24,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin-page'),
     path('harbour/', include('HEP_system.urls')),
+    path('settings/', include('master.urls')),
+    path('user_firm/', include('users.urls')),
     path('register/', user_views.register, name='user-register'),
-    path('person/', user_views.person, name='person'),
+    # path('person/', user_views.person, name='person'),
      path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 ]

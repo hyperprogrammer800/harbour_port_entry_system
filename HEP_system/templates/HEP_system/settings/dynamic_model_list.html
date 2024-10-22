@@ -1,0 +1,53 @@
+{% extends "HEP_system/sidebar.html" %}
+{% block content %}
+{% load custom_filters %}
+<div class="row">
+    <div class="col">
+        <h2>{{ formatted_model_name|title }} List</h2>
+    </div>
+    <div class="col-6">
+        <!-- You can add additional controls or filters here if needed -->
+    </div>
+    <div class="col">
+        <a href="{% url 'app-dynamic-model-creation' app_name model_name %}">
+            <button type="button" class="btn btn-primary">Add New {{ formatted_model_name|title }}</button>
+        </a>
+    </div>
+</div>
+<br>
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                {% for field in fields %}
+                    <th>{{ field.verbose_name|title }}</th>
+                {% endfor %}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in objects %}
+            
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                {% for field in fields %}
+                    {% if field.name != 'status' %}
+                    
+                        <td>{{object|display_related:field}}</td>
+                    {% else %}
+                        <td><span class="badge rounded-pill text-bg-success">{{object|display_related:field}}</span></td>
+                    {% endif %}
+                    
+                {% endfor %}
+                <td>
+                    <a href="{% url 'app-dynamic-model-creation' app_name model_name object.id %}" class="btn btn-secondary">Edit</a>
+                    <!-- <a href="#">Delete</a> -->
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -24,7 +24,25 @@ class PersonDocumentForm(forms.ModelForm):
         model = PersonDocument
         fields = ['proof_type', 'document_attach']
 
+class PersonCreateForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = [
+            'user_firm', 
+            'person_type', 
+            'mobile_no', 
+            'email_id', 
+            'reg_no', 
+            'adhaar_no', 
+            'designation', 
+            'nationality', 
+            'country', 
+            'dl_expiry', 
+            'profile_image'
+        ]
+
+
 class PersonUpdateForm(forms.ModelForm):
     class Meta:
         model = Person
-        fields = ['designation', 'nationality', 'country', 'reg_no', 'adhaar_no',  'profile_image']
+        fields = ['user_firm', 'person_type', 'designation', 'nationality', 'country', 'adhaar_no',  'profile_image', 'dl_expiry', 'mobile_no', 'email_id']
