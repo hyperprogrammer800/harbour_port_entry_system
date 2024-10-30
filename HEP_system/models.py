@@ -1,77 +1,44 @@
 from django.db import models
 from django.utils import timezone
 # from django.contrib.auth.models import User
-from master.models import VehicleType, TypesOfCargo, TypesOfContainer, DocumentType, EquipmentType
+from master.models import VehicleType, TypesOfCargo, TypesOfContainer, DocumentType, EquipmentType, UserFirmType
 from django.core.exceptions import ValidationError
 
-class UserFirm(models.Model):
-    FIRM_TYPE_CHOICES = [
-        ('stevedore', 'Stevedore'),
-        ('ship_agent', 'Ship Agent'),
-        ('custom_broker', 'Custom Broker'),
-        ('cfs', 'Container Freight Station'),
-        ('freight_forwarder', 'Freight Forwarder'),
-        ('terminal_operator', 'Terminal Operator'),
-        ('shipping_line', 'Shipping Line'),
-        ('warehouse_operator', 'Warehouse Operator'),
-        ('transport_carrier', 'Transport Carrier'),
-        ('port_authority', 'Port Authority'),
-    ]
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils import timezone
 
+class UserFirm(models.Model):
     name = models.CharField(max_length=255)
-    firm_type = models.CharField(max_length=50, choices=FIRM_TYPE_CHOICES)
-    phone_no = models.CharField(max_length=15, default='12345677')
+    user_firm_type = models.ForeignKey(UserFirmType, on_delete=models.CASCADE, related_name='user_firms')
+    phone_no = models.CharField(max_length=15)
     email_id = models.EmailField()
     address_1 = models.CharField(max_length=255)
     address_2 = models.CharField(max_length=255, blank=True, null=True)
-    # reg_date = models.DateField(default=timezone.now)
     reg_no = models.CharField(max_length=50)
-    contact_person = models.ForeignKey('users.Person', on_delete=models.CASCADE, related_name='userfirm_hep')
-    # phone_mobile_no = models.CharField(max_length=15)
+    created_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_user', default=1)
     fax_no = models.CharField(max_length=15, blank=True, null=True)
     gstin = models.CharField(max_length=15)
+    website = models.URLField(blank=True, null=True)
+    registration_date = models.DateField(blank=True, null=True, default=timezone.now)
+    license_number = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
-    # login_id = models.CharField(max_length=50, unique=True)
-    # password = models.CharField(max_length=128)
     status = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name
     
     def save(self, *args, **kwargs):
-        # Check if the firm_type is 'port_authority'
-        if self.firm_type == 'port_authority':
+        # Check if the user type is 'Port Authority'
+        if self.user_firm_type.type_name == 'Port Authority':
             # Check if the user creating this instance is a superuser
-            if not self.contact_person.user.is_superuser:
-                raise ValidationError("Only superusers can create a UserFirm with type 'port_authority'.")
+            if not self.created_user.is_superuser:
+                raise ValidationError("Only superusers can create a UserFirm with type 'Port Authority'.")
         
         # Call the parent class's save method
         super().save(*args, **kwargs)
-    
-
-class Vehicle(models.Model):
-    VEHICLE_TYPE = [
-        ('small', 'Small'),
-        ('large', 'Large'),
-        ('heavy', 'Heavy')
-    ]
-    vehicle_no = models.CharField(max_length=50)
-    vehicle_type = models.ForeignKey(VehicleType, on_delete=models.CASCADE)
-    firm = models.ForeignKey(UserFirm, on_delete=models.CASCADE, related_name='owned_vehicles', default=2)
-    reg_date = models.DateField(default=timezone.now)
-    reg_no = models.CharField(max_length=50)
-    # copy_of_rc = models.FileField(upload_to='vehicle_document/')
-    # copy_of_fc = models.FileField(upload_to='vehicle_document/')
-    # insurance = models.FileField(upload_to='vehicle_document/')
-    # puc = models.FileField(upload_to='vehicle_document/')
-    # port_approval_letter = models.FileField(upload_to='vehicle_document/')
-    # safety_officer_certificate = models.FileField(upload_to='vehicle_document/')
-    max_gvm = models.FloatField()
-    pollution_control_date = models.DateField()
-    fitness_certificate_date = models.DateField()
-    insurance_date = models.DateField()
-    status = models.BooleanField(default=True)
 
 class Equipment(models.Model):
     equipment_type = models.ForeignKey(EquipmentType, on_delete=models.CASCADE)
@@ -82,7 +49,7 @@ class Equipment(models.Model):
     status = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'Equipment {self.equipment_no} owned by {self.firm.name}'
+        return f'Equipment {self.equipment_no} of {self.firm.name}'
 
 class Cargo(models.Model):
     name_of_cargo = models.CharField(max_length=255)
@@ -98,10 +65,13 @@ class Cargo(models.Model):
     total_weight = models.FloatField()
     vessel_serial_no = models.CharField(max_length=50)
     vessel_name = models.CharField(max_length=255)
-    agent_type = models.CharField(max_length=50, choices=UserFirm.FIRM_TYPE_CHOICES)
+    agent_type = models.ForeignKey(UserFirmType, on_delete=models.CASCADE, default=5)
     agent_details = models.TextField()
     port_of_origin = models.CharField(max_length=255)
     port_of_destination = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name_of_cargo} of {self.firm.name}'
 
 class Container(models.Model):
     name_of_container = models.CharField(max_length=255)
@@ -115,10 +85,39 @@ class Container(models.Model):
     total_weight = models.FloatField()
     vessel_serial_no = models.CharField(max_length=50)
     vessel_name = models.CharField(max_length=255)
-    agent_type = models.CharField(max_length=50, choices=UserFirm.FIRM_TYPE_CHOICES)
+    agent_type = models.ForeignKey(UserFirmType, on_delete=models.CASCADE, default=8)
     agent_details = models.TextField()
     port_of_origin = models.CharField(max_length=255)
     port_of_destination = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name_of_container} of {self.firm.name}'    
+
+class Vehicle(models.Model):
+    VEHICLE_TYPE = [
+        ('small', 'Small'),
+        ('large', 'Large'),
+        ('heavy', 'Heavy')
+    ]
+    vehicle_no = models.CharField(max_length=50)
+    vehicle_type = models.ForeignKey(VehicleType, on_delete=models.CASCADE)
+    firm = models.ForeignKey(UserFirm, on_delete=models.CASCADE, related_name='owned_vehicles', default=2)
+    reg_date = models.DateField(default=timezone.now)
+    reg_no = models.CharField(max_length=50)
+    max_gvm = models.FloatField()
+    pollution_control_date = models.DateField()
+    fitness_certificate_date = models.DateField()
+    insurance_date = models.DateField()
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'Vehicle no - {self.vehicle_no} of {self.firm.name}'
+    # copy_of_rc = models.FileField(upload_to='vehicle_document/')
+    # copy_of_fc = models.FileField(upload_to='vehicle_document/')
+    # insurance = models.FileField(upload_to='vehicle_document/')
+    # puc = models.FileField(upload_to='vehicle_document/')
+    # port_approval_letter = models.FileField(upload_to='vehicle_document/')
+    # safety_officer_certificate = models.FileField(upload_to='vehicle_document/')
 
 
 class VehicleDocument(models.Model):

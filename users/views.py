@@ -1,24 +1,31 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, PersonUpdateForm, PersonDocumentForm, PersonCreateForm
+from .forms import UserRegisterForm, UserUpdateForm, PersonUpdateForm, PersonDocumentForm, PersonCreateForm, PermissionForm, RoleCreationForm, UserRolesForm, PermissionFormDefault
 from users.models import Person
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
-from HEP_system.models import UserFirm
+from django.contrib.auth.models import User, Permission, Group
+from django.urls import reverse
 # Create your views here.
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Your account has been created! {username} are now able to log in')
-            return redirect('login')
+        u_form = UserRegisterForm(request.POST)
+        p_form = PersonCreateForm(request.POST, request.FILES)
+        if u_form.is_valid() and p_form.is_valid():
+                user = u_form.save()
+                person = p_form.save(commit=False)
+                person.user = user
+                print(type(p_form.cleaned_data['user_firm']),p_form.cleaned_data['user_firm'],"USER FIRM ID")
+                person.user_firm = p_form.cleaned_data['user_firm']  # Set user_firm here
+                person.save()
+
+                username = u_form.cleaned_data.get('username')
+                messages.success(request, f'Person has been created! {username} are now able to log in')
+                return redirect('app-person-register', person_id=user.id)
     else:
-        form = UserRegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+        u_form = UserRegisterForm()
+        p_form = PersonCreateForm()
+    return render(request, 'users/register.html', {'u_form': u_form, 'p_form' : p_form})
 
 @login_required
 def person_list(request):
@@ -114,3 +121,98 @@ def person_register(request, person_id=None):
     }
 
     return render(request, 'users/person_register.html', context)
+
+
+@login_required
+def permission_management(request, user_id=None):
+
+    selected_user = request.POST.get('user') if request.method == 'POST' else user_id if user_id else None
+    print("selected_user---->",request.POST.get('user'), request.method,user_id)
+    users_option = Person.objects.filter(user_firm__user_firm_type_id=1)
+    
+    if selected_user:
+        selected_user = User.objects.get(id=selected_user)
+        print("SELECTED --->",selected_user,request.GET,selected_user.is_staff)
+    if request.method == 'POST' and selected_user and request.POST.get('action') == 'save':
+        
+        form = PermissionForm(request.POST, is_staff=selected_user.is_staff, user=selected_user)
+
+        if form.is_valid():
+            print("VALIDATIONS")
+            for perm in Permission.objects.all():
+                if perm.codename in form.cleaned_data and form.cleaned_data.get(perm.codename):
+                    print("ADDING", perm)
+                    selected_user.user_permissions.add(perm)
+                else:
+                    print("REMOVING", perm)
+                    selected_user.user_permissions.remove(perm)
+
+            selected_user.save()  # Save user to persist changes
+            form = PermissionForm(request.POST, is_staff=selected_user.is_staff, user=selected_user)
+            return redirect('permission_management_with_user', user_id= f'{selected_user.id}')  # Replace with your success URL
+    else:
+        if selected_user:
+            form = PermissionForm(is_staff=selected_user.is_staff, user=selected_user)
+        else:
+            form = PermissionForm(is_staff=None, user=None)
+    # form = PermissionFormDefault(request)
+    return render(request, 'groups/permission.html', {
+        'title': 'Permission Management',
+        'form': form,
+        'selected_user': selected_user,
+        'users' : users_option
+    })
+
+@login_required
+def group_role_creation(request, role_id=None):
+    roles = Group.objects.all()
+    if request.method == 'POST':
+        form = RoleCreationForm(request.POST)
+        if form.is_valid():
+            group = form.save()
+            return redirect('roles-creation', role_id=group.id)
+
+    else:
+        if role_id:
+            role_obj = Group.objects.get(id=role_id)
+            initial_data = {'role_name': role_obj.name}
+            
+            # Include current permissions
+            for perm in Permission.objects.all():
+                initial_data[perm.codename] = perm in role_obj.permissions.all()
+
+            form = RoleCreationForm(initial=initial_data)
+        else:
+            form = RoleCreationForm()
+
+    context = {
+        'form' : form,
+        'title' : 'Role Creation',
+        'roles' : roles
+    }
+    return render(request,'groups/roles_creation.html', context)
+
+@login_required
+def assign_user_role(request):
+    users = User.objects.filter(person__status=True)
+    user_id = request.GET.get('user_id', None)
+    print(user_id, "Got USER ID")
+    
+    if user_id:
+        # Initialize the form with the user_id
+        form = UserRolesForm(request.POST or None, user_id=user_id)
+        
+        if request.method == 'POST':
+            if form.is_valid():
+                user = get_object_or_404(User, id=user_id)
+                form.save(user)  # Save the roles for the user
+                # Redirect to a success page or back to the roles assignment page
+                return redirect(f'{reverse("assign-role")}?user_id={user_id}')
+    else:
+        form = UserRolesForm()  # Empty form if no user_id is provided
+
+    return render(request, 'groups/roles_assign.html', {
+        'users': users,
+        'form': form,
+        'title': 'User Role Assign'
+    })

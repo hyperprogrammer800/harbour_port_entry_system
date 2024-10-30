@@ -1,0 +1,58 @@
+{% extends "HEP_system/sidebar.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+    <div class="row mt-4">
+        <div class="col">
+            <h2>{{ title }} Form</h2>
+        </div>
+        <div class="col">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-expanded="false">
+                    Select Role
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'roles-creation' %}">New Role</a>
+                    {% for role in roles %}
+                    <a class="dropdown-item" href="{% url 'roles-creation' role.id %}">{{ role.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <!-- Text input field for role name (ensure this is only added once) -->
+            <div class="form-group">
+                {{ form.role_name|as_crispy_field }} <!-- Use crispy tag for the text input -->
+            </div>
+
+            <table>
+                <tr>
+                    {% for field in form %}
+                    {% if field.name != "role_name" %} <!-- Skip the role_name field -->
+                    <td>
+                        <div class="form-check">
+                            {{ field|as_crispy_field }} <!-- Render the checkbox with crispy -->
+                        </div>
+                    </td>
+                    {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                </tr>
+                <tr> <!-- Close the row every five fields -->
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </table>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-info" name="action" value="save">Save Role</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

@@ -41,7 +41,7 @@
                             </li>
                         {% endfor %}
                         <li>
-                            <a href="{% url 'app-persons-list' %}">Person</a>
+                            <a href="{% url 'app-dynamic-model' 'users' 'Person' %}">Person</a>
                         </li>
                         <!-- <li>
                             <a href="#">Vehicle Registration</a>
@@ -96,7 +96,7 @@
                     <a href="#passesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pass Management</a>
                     <ul class="collapse list-unstyled" id="passesSubmenu">
                         <li>
-                            <a href="#">Pass Request Form Port</a>
+                            <a href="{% url 'app-dynamic-model-creation' 'users' 'RFIDPass' %}">Pass Request Form Port</a>
                         </li>
                         <li>
                             <a href="#">Pass Request Form Agent</a>
@@ -199,7 +199,7 @@
                             <a href="#">Officer Authorization</a>
                         </li>
                         <li>
-                            <a href="#">Pass Penalty Fee</a>
+                            <a href="{% url 'app-dynamic-model' 'master' 'PassValidityPenalty' %}">Pass Penalty Fee</a>
                         </li>
                     </ul>
                 </li>
@@ -213,7 +213,20 @@
                         {% endfor %}
                     </ul>
                 </li>
-                
+                <li>
+                    <a href="#RoleandPermSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Roles & Permission</a>
+                    <ul class="collapse list-unstyled" id="RoleandPermSubmenu">
+                        <li>
+                            <a href="{% url 'permission-management' %}">Permission Management</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'roles-creation' %}">Roles Creation</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'assign-role' %}"> Users Role Management</a>
+                        </li>
+                    </ul>
+                </li>
                 <p><a href="{% url 'admin:index' %}">Admin</a></p>
             </ul>
         </nav>

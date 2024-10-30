@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'VOC_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hep_db_test',
+        'NAME': 'hep_new_db',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

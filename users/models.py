@@ -20,7 +20,7 @@ class Person(models.Model):
     country = models.CharField(max_length=50, default='India')
     dl_expiry = models.DateField(blank=True, null=True, default=timezone.now)
     profile_image = models.ImageField(default='default.jpg' ,upload_to='profile_pics/')
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username} Person'
@@ -56,7 +56,7 @@ class RFIDPass(models.Model):
     equipment = models.ForeignKey(EquipmentType, on_delete=models.CASCADE, null=True, blank=True)
     container = models.ForeignKey(Container, on_delete=models.CASCADE, null=True, blank=True)
     issued_at = models.DateTimeField(default=timezone.now)
-    valid_until = models.DateTimeField()
+    valid_until = models.DateTimeField(default=timezone.now)
     access_gates = models.ManyToManyField(AccessGate)  # Areas of access
     rate = models.ForeignKey(RateMaster, on_delete=models.CASCADE)  # Link to RateMaster
     request_type = models.CharField(max_length=10, choices=[

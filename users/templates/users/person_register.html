@@ -17,6 +17,7 @@
                 <p><strong>Status:</strong> {{ selected_user.person.status|yesno:"Active,Inactive" }}</p>
                 <p><strong>Firm:</strong> {{ selected_user.person.user_firm.name }}</p>
                 <p><strong>Person Type:</strong> {{ selected_user.person.person_type }}</p>
+                <p><strong>Activated Status:</strong> {{ selected_user.person.status }}</p>
             </div>
         </div>
       {% endif %}

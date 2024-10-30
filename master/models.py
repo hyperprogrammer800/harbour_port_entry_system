@@ -191,7 +191,15 @@ class PassValidityPenalty(models.Model):
         ('Internet Banking', 'Internet Banking'),
         ('UPI', 'UPI'),
         ('Cash', 'Cash'),
-    ])  # Payment methods
+    ])
 
     def __str__(self):
         return f"{self.access_gate} - {self.allowed_type} ({self.charge_type})"
+
+class UserFirmType(models.Model):
+    type_name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.type_name

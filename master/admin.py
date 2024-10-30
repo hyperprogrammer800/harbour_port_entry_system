@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import AccessGate, Company, DocumentType, EmployeeDesignation, PortAreaOfAccess, PortCategory, PortDepartment, PortPassIssueCenter, PassValidityPenalty, RateMaster, TypesOfCargo, TypesOfContainer, VehicleType, PersonType
+from .models import AccessGate, Company, DocumentType, EmployeeDesignation, PortAreaOfAccess, PortCategory,\
+      PortDepartment, PortPassIssueCenter, PassValidityPenalty, RateMaster, TypesOfCargo, TypesOfContainer, \
+        VehicleType, PersonType, UserFirmType
 
 # Register your models here.
 admin.site.register([
@@ -17,5 +19,6 @@ admin.site.register([
     TypesOfContainer,
     VehicleType,
     PersonType,
+    UserFirmType
 ])
 

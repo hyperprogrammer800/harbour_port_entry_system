@@ -1,5 +1,99 @@
 {% extends "HEP_system/sidebar.html" %}
 {% block content %}
-    <h1> Dashboard </h1>
+<h1> Dashboard </h1>
+<br>
+<div class="cointainer-fluid">
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">User Firms</div>
+                <div class="card-body">
+                    <h5 class="card-title text-white text-center">Registered & Active</h5>
+                    <p class="card-text">
+                    <h1 class="text-white text-center">{{user_firms }}</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">Persons</div>
+                <div class="card-body">
+                    <h5 class="card-title text-white text-center">Active & Total</h5>
+                    <p class="card-text">
+                    <h1 class="text-white text-center">{{persons }}</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">Vehicles</div>
+                <div class="card-body">
+                    <h5 class="card-title text-white text-center">IN & OUT</h5>
+                    <p class="card-text">
+                    <h1 class="text-white text-center">{{vehicles}}</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">Containers</div>
+                <div class="card-body">
+                    <h5 class="card-title text-white text-center">IN & OUT</h5>
+                    <p class="card-text">
+                    <h1 class="text-white text-center">{{containers}}</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <div class="card bg-warning mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">Cargo</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">IN & OUT</h5>
+                    <p class="card-text">
+                    <h1 class="text-center">{{cargos}}</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">Equipments</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">IN & OUT</h5>
+                    <p class="card-text">
+                    <h1 class="text-center">{{equipments}}</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">RFID</div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">IN & Total</h5>
+                    <p class="card-text">
+                    <h1 class="text-center">{{rfid_passes}}</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center font-weight-bold">Complaints</div>
+                <div class="card-body">
+                    <h5 class="card-title text-white text-center">Resolved & Total</h5>
+                    <p class="card-text">
+                    <h1 class="text-white text-center">20/50</h1>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
-    
